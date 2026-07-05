@@ -1,0 +1,19 @@
+{
+  "name": "DeliveryPrep",
+  "type": "object",
+  "description": "Delivery-preparation checklist for a Car (was the embedded delivery_prep{} object). One per car. Logistics owns it independently of the sales record. Each sub-item has done + files (files live in CarDocument with phase='delivery_prep').",
+  "properties": {
+    "car_id": { "type": "string" },
+    "itoran_done": { "type": "boolean", "default": false, "description": "איתורן" },
+    "lab_check_done": { "type": "boolean", "default": false, "description": "בדיקת מעבדה" },
+    "lab_check_date": { "type": "string", "format": "date" },
+    "registration_order_done": { "type": "boolean", "default": false, "description": "הזמנת רישום" },
+    "registration_order_number": { "type": "string" },
+    "customer_id_doc_done": { "type": "boolean", "default": false, "description": "צילום ת.ז לקוח" },
+    "registration_form_done": { "type": "boolean", "default": false, "description": "טופס רישום" },
+    "completed": { "type": "boolean", "default": false, "description": "כל הצ'קליסט הושלם" },
+    "updated_by": { "type": "string" }
+  },
+  "required": ["car_id"],
+  "rls_intended": { "read": "all staff", "create": "logistics/manager+", "update": "logistics/manager+", "delete": "manager+" }
+}

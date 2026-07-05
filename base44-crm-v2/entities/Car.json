@@ -1,0 +1,95 @@
+{
+  "name": "Car",
+  "type": "object",
+  "description": "v2 Car core — identity, specs, current state, and server-computed money summary only. Purchase/shipping/expense/document/history/prep detail live in satellite entities keyed by car_id (see DATA-MODEL.md). status stored as English code (shared/vehicleStatus.js), NOT Hebrew.",
+  "properties": {
+    "make": { "type": "string", "description": "יצרן" },
+    "model": { "type": "string", "description": "דגם" },
+    "trim": { "type": "string", "description": "תת דגם" },
+    "year": { "type": "number", "minimum": 1950, "maximum": 2100, "description": "שנת ייצור" },
+    "vin": { "type": "string", "description": "מספר שלדה" },
+    "license_plate_number": { "type": "string", "description": "מספר רישוי" },
+    "color": { "type": "string", "description": "צבע" },
+    "kilometers": { "type": "number", "minimum": 0, "description": "ק\"מ" },
+    "hand": { "type": "string", "description": "יד" },
+    "engine_volume": { "type": "string", "description": "נפח מנוע" },
+    "fuel_type": { "type": "string", "description": "סוג דלק" },
+    "catalog_id": { "type": "string", "description": "קישור ל-VehicleCatalog (relation, was unlinked in legacy)" },
+
+    "status_code": {
+      "type": "string",
+      "enum": ["awaiting_purchase","awaiting_invoice","paid_pending","paid_temporary","overseas_warehouse","awaiting_shipment","at_sea","in_transit","at_port","local_installations","in_stock","available_to_order","on_order","ready_for_delivery","prepping_delivery","delivered","sold","trade_in","returned","cancelled","archived"],
+      "default": "awaiting_purchase",
+      "description": "סטטוס רכב (קוד באנגלית; תווית עברית ב-shared/vehicleStatus.js). מעברים נאכפים בשרת."
+    },
+    "status_changed_at": { "type": "string", "format": "date-time" },
+
+    "approval_status": {
+      "type": "string",
+      "enum": ["pending_approval", "approved", "rejected"],
+      "default": "pending_approval",
+      "description": "נקבע בשרת בלבד (לא ע\"י הלקוח). ברירת מחדל = ממתין לאישור."
+    },
+    "submitted_by": { "type": "string" },
+    "submitted_at": { "type": "string", "format": "date-time" },
+    "approved_by": { "type": "string" },
+    "approved_at": { "type": "string", "format": "date-time" },
+
+    "customer_id": { "type": "string", "description": "לקוח נוכחי" },
+    "supplier_id": { "type": "string", "description": "ספק" },
+    "previous_owner_id": { "type": "string" },
+    "new_owner_id": { "type": "string" },
+    "trade_in_of_car_id": { "type": "string", "description": "אם התקבל בטרייד אין - הרכב המקורי" },
+
+    "vehicle_source": { "type": "string", "enum": ["import", "trade_in", "brokerage", "local_purchase"], "description": "מקור הרכב (קודים)" },
+    "is_import": { "type": "boolean", "default": false },
+    "import_type": { "type": "string", "enum": ["minor", "indirect"], "description": "יבוא זעיר / יבוא עקיף" },
+
+    "list_price": { "type": "number", "minimum": 0, "description": "מחיר מחירון" },
+    "required_price": { "type": "number", "minimum": 0, "description": "מחיר דרוש" },
+    "sale_price": { "type": "number", "minimum": 0, "description": "מחיר מכירה" },
+    "sale_date": { "type": "string", "format": "date" },
+    "additional_payment": { "type": "number", "minimum": 0, "description": "תשלום נוסף (טרייד אין)" },
+    "trade_in_value": { "type": "number", "minimum": 0 },
+
+    "cost_summary": {
+      "type": "object",
+      "description": "מחושב בשרת מ-CarPurchase + CarExpenseInvoice + CashFlow. קריאה בלבד ב-UI (לא free-text).",
+      "properties": {
+        "total_cost": { "type": "number" },
+        "purchase_price_shekel": { "type": "number" },
+        "currency": { "type": "string", "enum": ["ILS", "USD", "EUR"], "default": "ILS" },
+        "computed_at": { "type": "string", "format": "date-time" }
+      }
+    },
+
+    "show_on_website": { "type": "boolean", "default": false },
+    "overseas_status": { "type": "string" },
+    "overseas_status_last_updated": { "type": "string", "format": "date-time" },
+    "expected_arrival_date": { "type": "string", "format": "date" },
+
+    "itoran_code": { "type": "string" },
+    "richavit_file_number": { "type": "string" },
+    "model_code_number": { "type": "string" },
+    "model_code_completed": { "type": "boolean", "default": false },
+    "import_license_number": { "type": "string" },
+    "import_license_completed": { "type": "boolean", "default": false },
+    "paperwork_received": { "type": "boolean", "default": false },
+    "paperwork_received_at": { "type": "string", "format": "date-time" },
+    "invoice_issued": { "type": "boolean", "default": false },
+
+    "drive_folder_id": { "type": "string" },
+    "drive_folder_url": { "type": "string" },
+    "archived_date": { "type": "string", "format": "date-time" },
+    "last_updated_by": { "type": "string" },
+    "last_updated_at": { "type": "string", "format": "date-time" }
+  },
+  "required": ["make", "model", "year", "vin"],
+  "rls_intended": {
+    "note": "Base44 RLS syntax to be verified empirically on the preview app (Phase 4). Intent below; replace legacy invalid auth.role() form.",
+    "read": "all authenticated staff (custom_role != attendance_only)",
+    "create": "staff with vehicles.write",
+    "update": "staff with vehicles.write; status_code + approval_status enforced server-side",
+    "delete": "admin or sales_manager"
+  }
+}
