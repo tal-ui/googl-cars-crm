@@ -1,0 +1,23 @@
+{
+  "name": "Customer",
+  "type": "object",
+  "description": "v2 Customer — embedded history[] removed (moved to CustomerHistoryEvent, append-only). status uses codes. Staff read/write; delete manager+.",
+  "properties": {
+    "customer_type": { "type": "string", "enum": ["private", "business"], "default": "private", "description": "פרטי/עסקי (codes)" },
+    "company_name": { "type": "string" },
+    "company_id": { "type": "string" },
+    "full_name": { "type": "string" },
+    "id_number": { "type": "string" },
+    "phone": { "type": "string" },
+    "email": { "type": "string" },
+    "address": { "type": "string" },
+    "status": { "type": "string", "enum": ["lead", "prospect", "active", "inactive", "vip"], "default": "active" },
+    "referrer_customer_id": { "type": "string" },
+    "financing_check_started": { "type": "boolean", "default": false },
+    "financing_check_date": { "type": "string", "format": "date" },
+    "last_updated_by": { "type": "string" },
+    "last_updated_at": { "type": "string", "format": "date-time" }
+  },
+  "required": ["full_name", "phone"],
+  "rls_intended": { "read": "all staff", "create": "staff", "update": "staff", "delete": "manager+" }
+}

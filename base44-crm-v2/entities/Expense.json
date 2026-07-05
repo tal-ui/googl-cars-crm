@@ -1,0 +1,29 @@
+{
+  "name": "Expense",
+  "type": "object",
+  "description": "Employee expense report. v2 keeps the fields but adds owner+approver RLS (employee sees own only; managers approve) and moves status to codes. amount ≥0.",
+  "properties": {
+    "employee_email": { "type": "string" },
+    "employee_name": { "type": "string" },
+    "date": { "type": "string", "format": "date" },
+    "expense_name": { "type": "string" },
+    "amount": { "type": "number", "minimum": 0, "description": "כולל מע\"מ" },
+    "currency": { "type": "string", "enum": ["ILS", "USD", "EUR"], "default": "ILS" },
+    "vehicle_license_plate": { "type": "string" },
+    "category": { "type": "string", "enum": ["fuel", "parking", "tools", "vehicle_maintenance", "client_hosting", "deliveries", "other"], "description": "codes; Hebrew labels in shared map" },
+    "description": { "type": "string" },
+    "receipt_image": { "type": "string" },
+    "status": { "type": "string", "enum": ["pending", "approved", "rejected", "paid"], "default": "pending" },
+    "approved_by": { "type": "string" },
+    "approved_date": { "type": "string", "format": "date-time" },
+    "payment_date": { "type": "string", "format": "date" },
+    "notes": { "type": "string" }
+  },
+  "required": ["employee_email", "date", "expense_name", "amount", "category", "receipt_image"],
+  "rls_intended": {
+    "read": "owner (employee_email == current user) OR manager+ (approvers)",
+    "create": "owner only",
+    "update": "owner while status=pending; approver for status/approved_by",
+    "delete": "manager+"
+  }
+}

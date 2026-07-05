@@ -1,0 +1,16 @@
+{
+  "name": "CarCertificate",
+  "type": "object",
+  "description": "License / inspection / insurance certificate for a Car (was the embedded certificates{} object). One row per certificate type per car. expiry_date drives ReminderSetting alerts.",
+  "properties": {
+    "car_id": { "type": "string" },
+    "cert_type": { "type": "string", "enum": ["license", "inspection", "insurance"], "description": "רישיון / בדיקה / ביטוח" },
+    "number": { "type": "string" },
+    "provider": { "type": "string", "description": "חברת ביטוח (ל-insurance)" },
+    "expiry_date": { "type": "string", "format": "date" },
+    "file_url": { "type": "string" },
+    "file_name": { "type": "string" }
+  },
+  "required": ["car_id", "cert_type"],
+  "rls_intended": { "read": "all staff", "create": "staff w/ vehicles.write", "update": "staff w/ vehicles.write", "delete": "manager+" }
+}

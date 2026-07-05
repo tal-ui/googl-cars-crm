@@ -1,0 +1,16 @@
+{
+  "name": "Order",
+  "type": "object",
+  "description": "v2 Order — the sales header linking a customer to a car with the agreed total. NOTE: in the legacy data Orders were used loosely as payment-tranche records (PROCESS-MAP §2/§7 Q2). v2 default treats Order as the sales header and moves partial payments to the Payment entity (payment.order_id). If the owner prefers Orders-as-tranches, this stays and Payment.order_id is dropped. status uses codes. RLS: manager+/employee.",
+  "properties": {
+    "customer_id": { "type": "string" },
+    "car_id": { "type": "string" },
+    "order_date": { "type": "string", "format": "date" },
+    "total_price": { "type": "number", "minimum": 0 },
+    "currency": { "type": "string", "enum": ["ILS", "USD", "EUR"], "default": "ILS" },
+    "status": { "type": "string", "enum": ["new", "in_progress", "paid", "delivered", "cancelled"], "default": "new", "description": "codes; Hebrew labels in shared map" },
+    "notes": { "type": "string" }
+  },
+  "required": ["customer_id", "car_id", "order_date", "total_price"],
+  "rls_intended": { "read": "manager+ or employee", "create": "manager+ or employee", "update": "manager+ or employee", "delete": "manager+" }
+}
