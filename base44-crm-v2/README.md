@@ -28,10 +28,19 @@ base44-crm-v2/
 
 - [x] Plan approved (`docs/PLAN.md`)
 - [x] Entity-schema snapshot captured (25 entities) — `audit/schemas/`
-- [x] ISSUES.md seeded with schema-level findings
-- [ ] Phase 0 file-level audit — **blocked**: Base44 MCP tool calls currently
-      require an approval that the session cannot obtain (see PLAN.md context)
-- [ ] Phases 1–5
+- [x] **Phase 0 audit complete** — `audit/AUDIT.md`, `audit/ISSUES.md` (full
+      ranked register, 50 items), `audit/PROCESS-MAP.md` (business-ops map)
+- [x] Security hotfix package prepared (repo-only, **not applied to live**) —
+      `docs/SECURITY-HOTFIX.md`
+- [ ] Phase 1 — data model v2 (in progress)
+- [ ] Phases 2–5
+
+## App shape (from Phase 0)
+
+37 pages · ~130 components (incl. 135 KB / 121 KB dialogs) · ~96 Deno functions ·
+25 entities · ~200+ vehicles in daily production use. Headline risks: unauthenticated
+service-role webhooks, a hardcoded agent key, no route-level authz, and attendance
+schema-drift causing silent data loss. See `audit/AUDIT.md`.
 
 ## Hard rules
 
