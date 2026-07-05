@@ -1,0 +1,15 @@
+{
+  "name": "CustomerHistoryEvent",
+  "type": "object",
+  "description": "Append-only audit event for a Customer. Replaces the embedded Customer.history[] array. One row per change; never updated.",
+  "properties": {
+    "customer_id": { "type": "string" },
+    "action": { "type": "string" },
+    "changed_by": { "type": "string" },
+    "changed_by_name": { "type": "string" },
+    "changes": { "type": "object" },
+    "note": { "type": "string" }
+  },
+  "required": ["customer_id", "action"],
+  "rls_intended": { "read": "all staff", "create": "service/staff", "update": "none (append-only)", "delete": "admin" }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "VisitorLog",
+  "type": "object",
+  "description": "v2 VisitorLog — OpenClaw AI camera recognition event. Written by the authenticated openclawWebhook (fail-closed in v2). RLS: manager+ read.",
+  "properties": {
+    "visitor_name": { "type": "string" },
+    "camera": { "type": "string" },
+    "detected_at": { "type": "string", "format": "date-time" },
+    "source": { "type": "string" },
+    "raw_payload": { "type": "object" }
+  },
+  "required": ["visitor_name", "detected_at"],
+  "rls_intended": { "read": "manager+", "create": "service (webhook)", "update": "none", "delete": "manager+" }
+}

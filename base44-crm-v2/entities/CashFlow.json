@@ -1,0 +1,21 @@
+{
+  "name": "CashFlow",
+  "type": "object",
+  "description": "Cash-flow row (in/out). v2 adds currency + ≥0 constraints and finance-role RLS (was world-readable). Marking an inflow paid still auto-creates a Payment when tied to a vehicle+customer (server-side in v2).",
+  "properties": {
+    "vehicle_id": { "type": "string" },
+    "customer_id": { "type": "string" },
+    "direction": { "type": "string", "enum": ["in", "out"] },
+    "category": { "type": "string", "enum": ["purchase", "tax", "shipping", "maintenance", "insurance", "registration", "sale_receipt", "other"] },
+    "amount": { "type": "number", "minimum": 0 },
+    "currency": { "type": "string", "enum": ["ILS", "USD", "EUR"], "default": "ILS" },
+    "due_date": { "type": "string", "format": "date" },
+    "paid": { "type": "boolean", "default": false },
+    "paid_date": { "type": "string", "format": "date" },
+    "counterparty": { "type": "string" },
+    "invoice_id": { "type": "string" },
+    "notes": { "type": "string" }
+  },
+  "required": ["direction", "amount"],
+  "rls_intended": { "read": "manager+ (finance)", "create": "manager+", "update": "manager+", "delete": "manager+" }
+}

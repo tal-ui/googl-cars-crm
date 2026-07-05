@@ -1,0 +1,17 @@
+{
+  "name": "CarHistoryEvent",
+  "type": "object",
+  "description": "Append-only audit event for a Car. Replaces the embedded Car.history[] array that was client-truncated to 20 (lossy) and bloated the row. One row per change; never updated.",
+  "properties": {
+    "car_id": { "type": "string" },
+    "action": { "type": "string", "description": "סוג הפעולה (status_change, field_update, document_added, payment_added, ...)" },
+    "changed_by": { "type": "string" },
+    "changed_by_name": { "type": "string" },
+    "changes": { "type": "object", "description": "diff של השדות ששונו" },
+    "from_status": { "type": "string" },
+    "to_status": { "type": "string" },
+    "note": { "type": "string" }
+  },
+  "required": ["car_id", "action"],
+  "rls_intended": { "read": "all staff", "create": "service/staff", "update": "none (append-only)", "delete": "admin" }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "ReminderSetting",
+  "type": "object",
+  "description": "v2 ReminderSetting — global reminder cadence for certificate expiry + cashflow due dates. Unchanged shape; admin-managed.",
+  "properties": {
+    "active": { "type": "boolean", "default": true },
+    "certificate_days_before": { "type": "array", "items": { "type": "number" }, "default": [14, 7, 1] },
+    "cashflow_days_before": { "type": "array", "items": { "type": "number" }, "default": [7, 3, 1] },
+    "send_email_to_admins": { "type": "boolean", "default": true },
+    "send_email_to_customers_for_cashflow": { "type": "boolean", "default": false }
+  },
+  "required": [],
+  "rls_intended": { "read": "manager+", "create": "admin", "update": "admin", "delete": "admin" }
+}

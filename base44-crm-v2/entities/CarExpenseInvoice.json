@@ -1,0 +1,32 @@
+{
+  "name": "CarExpenseInvoice",
+  "type": "object",
+  "description": "One expense invoice for a Car. Replaces the embedded Car.expense_invoices[] and extra_expenses_list[] arrays. Keeps OCR-extracted data. Feeds the server-computed Car.cost_summary.",
+  "properties": {
+    "car_id": { "type": "string" },
+    "name": { "type": "string", "description": "שם ההוצאה / החשבונית" },
+    "file_url": { "type": "string" },
+    "file_type": { "type": "string" },
+    "amount": { "type": "number", "minimum": 0 },
+    "currency": { "type": "string", "enum": ["ILS", "USD", "EUR"], "default": "ILS" },
+    "exchange_rate": { "type": "number", "minimum": 0, "description": "אם מטבע זר - שער בעת החשבונית" },
+    "amount_shekel": { "type": "number", "minimum": 0, "description": "מחושב" },
+    "expense_date": { "type": "string", "format": "date" },
+    "supplier": { "type": "string" },
+    "category": { "type": "string", "enum": ["purchase", "import_tax", "shipping", "local", "maintenance", "other"], "default": "other" },
+    "extracted_data": {
+      "type": "object",
+      "description": "נתונים שחולצו אוטומטית (OCR)",
+      "properties": {
+        "amount": { "type": "number" },
+        "currency": { "type": "string" },
+        "description": { "type": "string" },
+        "date": { "type": "string" },
+        "supplier": { "type": "string" }
+      }
+    },
+    "created_by": { "type": "string" }
+  },
+  "required": ["car_id"],
+  "rls_intended": { "read": "manager+ (finance)", "create": "manager+", "update": "manager+", "delete": "manager+" }
+}

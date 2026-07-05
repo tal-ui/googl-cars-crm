@@ -1,0 +1,18 @@
+{
+  "name": "WhatsAppSession",
+  "type": "object",
+  "description": "v2 WhatsAppSession — per-chat conversation state for the employee assistant bot. RLS: service + manager+ only (was world-readable).",
+  "properties": {
+    "chat_id": { "type": "string" },
+    "employee_name": { "type": "string" },
+    "employee_phone": { "type": "string" },
+    "history": { "type": "array", "items": { "type": "object", "properties": {
+      "role": { "type": "string" },
+      "content": { "type": "string" },
+      "timestamp": { "type": "string", "format": "date-time" }
+    } } },
+    "last_message_at": { "type": "string", "format": "date-time" }
+  },
+  "required": ["chat_id"],
+  "rls_intended": { "read": "manager+ or service", "create": "service", "update": "service", "delete": "manager+" }
+}

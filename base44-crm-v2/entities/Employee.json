@@ -1,0 +1,15 @@
+{
+  "name": "Employee",
+  "type": "object",
+  "description": "v2 Employee — directory record (phone = natural key, links to WhatsApp/Telegram). RLS: manager+ manage; staff read basic.",
+  "properties": {
+    "name": { "type": "string" },
+    "phone": { "type": "string" },
+    "role": { "type": "string" },
+    "whatsapp_chat_id": { "type": "string" },
+    "telegram_chat_id": { "type": "string" },
+    "is_active": { "type": "boolean", "default": true }
+  },
+  "required": ["name", "phone"],
+  "rls_intended": { "read": "staff", "create": "manager+", "update": "manager+", "delete": "admin" }
+}

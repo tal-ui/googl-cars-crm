@@ -1,0 +1,26 @@
+{
+  "name": "WhatsAppMessage",
+  "type": "object",
+  "description": "v2 WhatsApp log — canonical snake_case fields only; the camelCase twins (customerId/customerName/message) and explicit 'timestamp' are frozen (read-fallback only). Fixes duplicate-field drift I-005. Sort by platform created_date. RLS: manager+/service only (was world-readable).",
+  "properties": {
+    "phone": { "type": "string" },
+    "direction": { "type": "string", "enum": ["incoming", "outgoing"] },
+    "message_text": { "type": "string", "description": "תוכן ההודעה (קנוני)" },
+    "customer_id": { "type": "string" },
+    "customer_name": { "type": "string" },
+    "customer_phone": { "type": "string" },
+    "is_read": { "type": "boolean", "default": false },
+    "media_url": { "type": "string" },
+    "media_type": { "type": "string" },
+    "message_id": { "type": "string", "description": "מזהה הודעה מהספק - משמש ל-idempotency" },
+    "replied_by": { "type": "string" },
+    "reply_text": { "type": "string" },
+
+    "_legacy_message": { "type": "string", "description": "FROZEN (was 'message'). Read-fallback only." },
+    "_legacy_customerId": { "type": "string", "description": "FROZEN (was 'customerId')." },
+    "_legacy_customerName": { "type": "string", "description": "FROZEN (was 'customerName')." },
+    "_legacy_timestamp": { "type": "string", "format": "date-time", "description": "FROZEN (was 'timestamp'); prefer created_date." }
+  },
+  "required": ["phone", "direction"],
+  "rls_intended": { "read": "manager+ or service", "create": "service (webhook)", "update": "manager+ or service", "delete": "manager+" }
+}

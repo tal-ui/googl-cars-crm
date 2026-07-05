@@ -1,0 +1,20 @@
+{
+  "name": "Supplier",
+  "type": "object",
+  "description": "v2 Supplier — unchanged shape; adds RLS (bank details are sensitive → manager+ for financial fields; basic contact readable by staff).",
+  "properties": {
+    "name": { "type": "string" },
+    "contact_person": { "type": "string" },
+    "phone": { "type": "string" },
+    "email": { "type": "string" },
+    "email2": { "type": "string" },
+    "address": { "type": "string" },
+    "country": { "type": "string" },
+    "bank_details": { "type": "string", "description": "רגיש - manager+" },
+    "bank_details_file_url": { "type": "string" },
+    "bank_details_file_name": { "type": "string" },
+    "notes": { "type": "string" }
+  },
+  "required": ["name"],
+  "rls_intended": { "read": "basic = staff; bank_details = manager+", "create": "manager+", "update": "manager+", "delete": "manager+" }
+}

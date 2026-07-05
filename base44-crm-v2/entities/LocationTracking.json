@@ -1,0 +1,23 @@
+{
+  "name": "LocationTracking",
+  "type": "object",
+  "description": "GPS ping for an active employee shift. v2: written at most every N minutes (default 5, was double 30s writes), raw points pruned after D days (default 30) leaving per-shift summaries on AttendanceRecord (see DATA-MODEL.md §4). RLS: own-only read — fixes I-001 (was world-readable employee location history).",
+  "properties": {
+    "user_email": { "type": "string" },
+    "user_name": { "type": "string" },
+    "latitude": { "type": "number" },
+    "longitude": { "type": "number" },
+    "accuracy": { "type": "number" },
+    "is_active": { "type": "boolean", "default": true },
+    "work_session_id": { "type": "string" },
+    "attendance_record_id": { "type": "string" },
+    "retain_until": { "type": "string", "format": "date", "description": "תאריך פקיעה לגריעה אוטומטית (retention)" }
+  },
+  "required": ["user_email", "latitude", "longitude"],
+  "rls_intended": {
+    "read": "own (user_email == current user) OR manager+ = all",
+    "create": "own only",
+    "update": "own only",
+    "delete": "manager+ or retention prune (service)"
+  }
+}

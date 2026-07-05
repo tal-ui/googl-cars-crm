@@ -1,0 +1,15 @@
+{
+  "name": "CustomerInteraction",
+  "type": "object",
+  "description": "v2 CustomerInteraction — logs calls/meetings/emails/WhatsApp per customer. interaction_type uses codes (Hebrew labels in shared map). Staff read/write.",
+  "properties": {
+    "customer_id": { "type": "string" },
+    "interaction_type": { "type": "string", "enum": ["call", "meeting", "email", "whatsapp", "other"], "description": "codes; Hebrew labels in shared map" },
+    "date": { "type": "string", "format": "date-time" },
+    "summary": { "type": "string" },
+    "related_vehicle_id": { "type": "string" },
+    "created_by_name": { "type": "string" }
+  },
+  "required": ["customer_id", "interaction_type", "date", "summary"],
+  "rls_intended": { "read": "all staff", "create": "staff", "update": "creator/manager+", "delete": "manager+" }
+}

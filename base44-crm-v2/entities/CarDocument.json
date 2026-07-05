@@ -1,0 +1,27 @@
+{
+  "name": "CarDocument",
+  "type": "object",
+  "description": "One document or image attached to a Car. Replaces the five embedded arrays (images[], documents[], supplier_documents[], sale_documents[], invoices_receipts[]) + inspection_form. Enables per-file metadata, per-file RLS by category, and pagination.",
+  "properties": {
+    "car_id": { "type": "string" },
+    "category": {
+      "type": "string",
+      "enum": ["image", "document", "supplier", "sale", "invoice_receipt", "inspection"],
+      "description": "סוג הקובץ (מחליף מערכים נפרדים)"
+    },
+    "name": { "type": "string" },
+    "url": { "type": "string" },
+    "file_type": { "type": "string" },
+    "is_primary": { "type": "boolean", "default": false, "description": "תמונה ראשית (רק ל-category=image)" },
+    "phase": { "type": "string", "description": "שלב במחזור החיים שהמסמך שייך אליו (למיון ב-Drive)" },
+    "notes": { "type": "string" },
+    "uploaded_by": { "type": "string" }
+  },
+  "required": ["car_id", "category", "url"],
+  "rls_intended": {
+    "read": "sale/invoice_receipt/supplier categories = manager+; image/document/inspection = all staff",
+    "create": "staff with vehicles.write",
+    "update": "staff with vehicles.write",
+    "delete": "manager+"
+  }
+}

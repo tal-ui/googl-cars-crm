@@ -1,0 +1,19 @@
+{
+  "name": "Payment",
+  "type": "object",
+  "description": "Customer payment/receipt. v2 adds explicit currency (was missing → I-010) and ≥0 constraints; RLS restricts to finance roles (was world-readable).",
+  "properties": {
+    "customer_id": { "type": "string" },
+    "related_vehicle_id": { "type": "string" },
+    "order_id": { "type": "string", "description": "קישור להזמנה (אם רלוונטי)" },
+    "date": { "type": "string", "format": "date" },
+    "amount": { "type": "number", "minimum": 0 },
+    "currency": { "type": "string", "enum": ["ILS", "USD", "EUR"], "default": "ILS" },
+    "payment_method": { "type": "string", "enum": ["cash", "bank_transfer", "credit", "check", "other"], "default": "other", "description": "codes; Hebrew labels in shared map" },
+    "description": { "type": "string" },
+    "receipt_issued": { "type": "boolean", "default": false },
+    "receipt_number": { "type": "string" }
+  },
+  "required": ["customer_id", "date", "amount"],
+  "rls_intended": { "read": "manager+ (finance)", "create": "manager+ or service (createCarPayment)", "update": "manager+", "delete": "manager+" }
+}

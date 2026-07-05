@@ -1,0 +1,16 @@
+{
+  "name": "Notification",
+  "type": "object",
+  "description": "v2 Notification — in-app alert. type uses codes. RLS: recipient reads own only.",
+  "properties": {
+    "user_email": { "type": "string" },
+    "title": { "type": "string" },
+    "message": { "type": "string" },
+    "is_read": { "type": "boolean", "default": false },
+    "link": { "type": "string" },
+    "type": { "type": "string", "enum": ["task", "vehicle", "customer", "system"] },
+    "icon": { "type": "string", "description": "Lucide icon name" }
+  },
+  "required": ["user_email", "title", "message"],
+  "rls_intended": { "read": "own (user_email == user)", "create": "service/staff", "update": "own (mark read)", "delete": "own or manager+" }
+}

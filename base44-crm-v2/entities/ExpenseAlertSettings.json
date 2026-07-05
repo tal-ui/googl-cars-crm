@@ -1,0 +1,16 @@
+{
+  "name": "ExpenseAlertSettings",
+  "type": "object",
+  "description": "v2 ExpenseAlertSettings — per-user expense alert preferences. RLS: own only.",
+  "properties": {
+    "user_email": { "type": "string" },
+    "budget_alert_enabled": { "type": "boolean", "default": true },
+    "monthly_reminder_enabled": { "type": "boolean", "default": true },
+    "reminder_day_of_month": { "type": "number", "minimum": 1, "maximum": 28, "default": 25 },
+    "notification_channels": { "type": "array", "items": { "type": "string", "enum": ["app", "email", "whatsapp"] }, "default": ["app", "email"] },
+    "alert_for_pending_approval": { "type": "boolean", "default": true },
+    "daily_digest": { "type": "boolean", "default": false }
+  },
+  "required": ["user_email"],
+  "rls_intended": { "read": "own OR manager+", "create": "own", "update": "own", "delete": "own or admin" }
+}

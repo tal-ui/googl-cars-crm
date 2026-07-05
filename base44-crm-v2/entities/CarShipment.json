@@ -1,0 +1,18 @@
+{
+  "name": "CarShipment",
+  "type": "object",
+  "description": "Shipping/customs detail for a Car (was inline container_ship_info etc.). One per car.",
+  "properties": {
+    "car_id": { "type": "string" },
+    "container_number": { "type": "string" },
+    "ship_name": { "type": "string" },
+    "departure_date": { "type": "string", "format": "date" },
+    "expected_arrival_date": { "type": "string", "format": "date" },
+    "actual_arrival_date": { "type": "string", "format": "date" },
+    "port_release_date": { "type": "string", "format": "date" },
+    "customs_status": { "type": "string" },
+    "notes": { "type": "string" }
+  },
+  "required": ["car_id"],
+  "rls_intended": { "read": "all staff", "create": "staff (logistics/manager)", "update": "staff (logistics/manager)", "delete": "manager+" }
+}

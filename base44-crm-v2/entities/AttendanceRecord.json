@@ -1,0 +1,31 @@
+{
+  "name": "AttendanceRecord",
+  "type": "object",
+  "description": "v2 attendance — canonical NEW schema only; all writers emit it (fixes the dual-schema drift I-111 where legacy-only punches were invisible in tracking/reports). Legacy fields kept frozen for read-fallback on un-migrated rows; v2 code never writes them. RLS: employee reads OWN records only (I-001).",
+  "properties": {
+    "user_email": { "type": "string", "description": "אימייל העובד" },
+    "user_name": { "type": "string" },
+    "employee_id": { "type": "string" },
+    "date": { "type": "string", "format": "date" },
+    "check_in_time": { "type": "string", "format": "date-time" },
+    "check_out_time": { "type": "string", "format": "date-time" },
+    "check_in_lat": { "type": "number" },
+    "check_in_lng": { "type": "number" },
+    "check_out_lat": { "type": "number" },
+    "check_out_lng": { "type": "number" },
+    "check_in_address": { "type": "string", "description": "כתובת (reverse-geocode)" },
+    "status": { "type": "string", "enum": ["active", "completed"], "default": "active", "description": "active = בפנים, completed = יצא" },
+    "source": { "type": "string", "enum": ["geofence", "manual", "logistics_card"], "description": "איך נרשמה הנוכחות" },
+
+    "_legacy_timestamp": { "type": "string", "format": "date-time", "description": "FROZEN legacy field (was 'timestamp'). Read-fallback only; never written by v2." },
+    "_legacy_type": { "type": "string", "enum": ["entrance", "exit"], "description": "FROZEN legacy field (was 'type')." },
+    "_legacy_location": { "type": "object", "description": "FROZEN legacy field (was 'location').", "properties": { "latitude": { "type": "number" }, "longitude": { "type": "number" }, "address": { "type": "string" } } }
+  },
+  "required": ["user_email", "date", "status"],
+  "rls_intended": {
+    "read": "own records (user_email == current user) OR manager+ = all",
+    "create": "own records only",
+    "update": "own records only",
+    "delete": "manager+"
+  }
+}

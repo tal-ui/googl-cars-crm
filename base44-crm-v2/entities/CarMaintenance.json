@@ -1,0 +1,17 @@
+{
+  "name": "CarMaintenance",
+  "type": "object",
+  "description": "One maintenance record for a Car (was the embedded maintenance_history[] array). Append-style; one row per service event.",
+  "properties": {
+    "car_id": { "type": "string" },
+    "date": { "type": "string", "format": "date" },
+    "type": { "type": "string", "description": "סוג הטיפול" },
+    "cost": { "type": "number", "minimum": 0 },
+    "garage": { "type": "string" },
+    "notes": { "type": "string" },
+    "document_url": { "type": "string" },
+    "document_name": { "type": "string" }
+  },
+  "required": ["car_id"],
+  "rls_intended": { "read": "all staff", "create": "staff w/ vehicles.write", "update": "staff w/ vehicles.write", "delete": "manager+" }
+}

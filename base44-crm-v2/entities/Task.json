@@ -1,0 +1,36 @@
+{
+  "name": "Task",
+  "type": "object",
+  "description": "v2 Task — unchanged shape (already uses English enums); adds RLS so users see tasks assigned to them or that they created; managers see all. Reminders/nagging kept.",
+  "properties": {
+    "title": { "type": "string" },
+    "description": { "type": "string" },
+    "status": { "type": "string", "enum": ["todo", "in_progress", "done"], "default": "todo" },
+    "priority": { "type": "string", "enum": ["low", "medium", "high"], "default": "medium" },
+    "assigned_to": { "type": "string", "description": "אימייל" },
+    "due_date": { "type": "string", "format": "date" },
+    "category": { "type": "string", "enum": ["vehicle_management", "customer_service", "administration", "sales", "other"], "default": "other" },
+    "related_vehicle_id": { "type": "string" },
+    "related_customer_id": { "type": "string" },
+    "completed_date": { "type": "string", "format": "date-time" },
+    "notes": { "type": "string" },
+    "address": { "type": "string", "description": "כתובת - קישור Waze" },
+    "manual_vehicle_plate": { "type": "string" },
+    "manual_contact_name": { "type": "string" },
+    "manual_contact_phone": { "type": "string" },
+    "reminders": { "type": "array", "items": { "type": "object", "properties": {
+      "type": { "type": "string", "enum": ["before_due", "specific_time"] },
+      "days_before": { "type": "number" },
+      "specific_date": { "type": "string", "format": "date-time" },
+      "channels": { "type": "array", "items": { "type": "string", "enum": ["app", "whatsapp", "email"] } },
+      "sent": { "type": "boolean", "default": false },
+      "sent_at": { "type": "string", "format": "date-time" }
+    } } },
+    "reminder_enabled": { "type": "boolean", "default": true },
+    "nagging_enabled": { "type": "boolean", "default": false },
+    "nagging_channels": { "type": "array", "items": { "type": "string", "enum": ["app", "whatsapp", "email"] }, "default": ["app"] },
+    "last_nag_sent": { "type": "string", "format": "date-time" }
+  },
+  "required": ["title", "assigned_to"],
+  "rls_intended": { "read": "assigned_to == user OR created_by == user OR manager+", "create": "staff", "update": "assignee/creator/manager+", "delete": "manager+" }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "CarPurchase",
+  "type": "object",
+  "description": "Purchase-abroad detail for a Car (was inline on Car). One per car. Exchange rate is stored WITH the transaction (rate-at-time), never looked up retroactively.",
+  "properties": {
+    "car_id": { "type": "string", "description": "מזהה רכב" },
+    "purchase_date": { "type": "string", "format": "date" },
+    "purchase_invoice_number": { "type": "string" },
+    "supplier_id": { "type": "string" },
+    "price_foreign": { "type": "number", "minimum": 0, "description": "מחיר במטבע זר" },
+    "foreign_currency": { "type": "string", "enum": ["USD", "EUR", "ILS"], "default": "USD" },
+    "exchange_rate": { "type": "number", "minimum": 0, "description": "שער ביום הקניה (נשמר עם העסקה)" },
+    "price_shekel": { "type": "number", "minimum": 0, "description": "מחושב: price_foreign * exchange_rate" },
+    "import_cost": { "type": "number", "minimum": 0, "description": "מיסי יבוא" },
+    "notes": { "type": "string" }
+  },
+  "required": ["car_id"],
+  "rls_intended": { "read": "manager+ (finance)", "create": "manager+", "update": "manager+", "delete": "manager+" }
+}
