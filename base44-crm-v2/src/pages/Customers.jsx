@@ -155,7 +155,7 @@ function AddCustomerDialog({ open, onClose, onCreated }) {
               className={`${INPUT_CLASS} font-mono`}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="name@example.com"
+              placeholder="example@domain.com"
             />
           </Field>
         </div>

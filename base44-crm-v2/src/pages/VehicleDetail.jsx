@@ -19,7 +19,6 @@ import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Cars, CarHistoryEvents } from '@/api/entities';
 import CarWorkspace from '@/components/vehicles/CarWorkspace';
-import { toast } from '@/lib/toast';
 
 export default function VehicleDetail() {
   const { id } = useParams();

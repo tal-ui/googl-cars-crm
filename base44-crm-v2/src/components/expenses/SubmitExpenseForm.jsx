@@ -175,7 +175,7 @@ export default function SubmitExpenseForm({ user, onCreated }) {
       {/* Step 2 — confirm the prefilled fields (only after a receipt exists) */}
       {receipt ? (
         <div className="mt-5 space-y-4">
-          <Field label="סכום" required error={errors.amount}>
+          <Field label="סכום" required htmlFor="expense-amount" error={errors.amount}>
             <MoneyInput
               id="expense-amount"
               value={money}
@@ -222,7 +222,7 @@ export default function SubmitExpenseForm({ user, onCreated }) {
             />
           </Field>
 
-          <Field label="תאריך" required error={errors.date}>
+          <Field label="תאריך" required htmlFor="expense-date" error={errors.date}>
             <DateInputHe
               id="expense-date"
               value={date}

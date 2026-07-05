@@ -25,7 +25,11 @@ import { useAuth } from '@/lib/AuthContext';
 import { AttendanceRecords } from '@/api/entities';
 import { toast } from '@/lib/toast';
 
-const todayIso = () => new Date().toISOString().slice(0, 10);
+// Local calendar date (Israel), not UTC — avoids the day rolling over near midnight.
+const todayIso = () => {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+};
 
 /** Wrap the callback geolocation API in a single-shot promise. Never rejects. */
 function getPositionOnce() {
