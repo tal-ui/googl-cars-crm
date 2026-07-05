@@ -1,0 +1,14 @@
+{
+  "name": "ExpenseBudget",
+  "type": "object",
+  "description": "v2 ExpenseBudget — per-category monthly budget + alert threshold. category uses codes matching Expense. Manager-managed.",
+  "properties": {
+    "category": { "type": "string", "enum": ["fuel", "parking", "tools", "vehicle_maintenance", "client_hosting", "deliveries", "other"] },
+    "monthly_budget": { "type": "number", "minimum": 0 },
+    "alert_threshold": { "type": "number", "minimum": 0, "maximum": 100, "default": 80, "description": "אחוז מהתקציב להתראה" },
+    "active": { "type": "boolean", "default": true },
+    "notes": { "type": "string" }
+  },
+  "required": ["category", "monthly_budget"],
+  "rls_intended": { "read": "manager+", "create": "manager+", "update": "manager+", "delete": "manager+" }
+}

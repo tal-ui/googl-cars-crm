@@ -1,0 +1,14 @@
+{
+  "name": "Contact",
+  "type": "object",
+  "description": "v2 Contact — a person under a business Customer. Unchanged shape; staff read/write.",
+  "properties": {
+    "customer_id": { "type": "string", "description": "הלקוח העסקי" },
+    "name": { "type": "string" },
+    "role": { "type": "string" },
+    "phone": { "type": "string" },
+    "email": { "type": "string" }
+  },
+  "required": ["customer_id", "name"],
+  "rls_intended": { "read": "all staff", "create": "staff", "update": "staff", "delete": "manager+" }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "TelegramCache",
+  "type": "object",
+  "description": "v2 TelegramCache — short-lived (5 min TTL) state machine for the Telegram bot workflow. v2 writes are atomic upserts keyed by chat_id (legacy did delete-then-create → race, audit telegramWebhook deep-dive). RLS: service + manager+ only.",
+  "properties": {
+    "chat_id": { "type": "string" },
+    "last_vin": { "type": "string" },
+    "vehicle_id": { "type": "string" },
+    "vehicle_make": { "type": "string" },
+    "vehicle_model": { "type": "string" },
+    "vehicle_vin": { "type": "string" },
+    "workflow_state": { "type": "string", "enum": ["idle", "waiting_for_vehicle_number", "waiting_for_status_selection"] },
+    "active_vehicles_list": { "type": "array", "items": { "type": "object", "properties": {
+      "id": { "type": "string" }, "make": { "type": "string" }, "model": { "type": "string" },
+      "year": { "type": "number" }, "status": { "type": "string" }, "vin": { "type": "string" }
+    } } },
+    "selected_vehicle_index": { "type": "number" },
+    "expires_at": { "type": "string", "format": "date-time" }
+  },
+  "required": ["chat_id", "expires_at"],
+  "rls_intended": { "read": "service or manager+", "create": "service", "update": "service", "delete": "service (TTL prune) or manager+" }
+}

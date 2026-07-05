@@ -1,0 +1,14 @@
+{
+  "name": "User",
+  "type": "object",
+  "description": "v2 User — Base44 built-in user extended with custom_role + permissions. v2 removes the hardcoded superuser email allowlist (I-110) — admin is a role, not an email literal. custom_role drives the route+permission registry. RLS: admin manages; users read own.",
+  "properties": {
+    "custom_role": { "type": "string", "enum": ["admin", "sales_manager", "employee", "logistics_employee", "attendance_only"], "default": "employee" },
+    "permissions": { "type": "array", "items": { "type": "string" }, "description": "הרשאות ספציפיות מעבר לתפקיד (override)" },
+    "department": { "type": "string" },
+    "phone": { "type": "string" },
+    "notes": { "type": "string" }
+  },
+  "required": [],
+  "rls_intended": { "read": "own OR manager+", "create": "admin", "update": "admin (role/permissions); own (phone/notes)", "delete": "admin" }
+}
